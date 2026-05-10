@@ -21,6 +21,10 @@ const app = express();
 app.use(cors());
 app.use(express.json()); // Built-in middleware to parse JSON
 
+// Routes
+const userRoutes = require('./routes/userRoutes');
+app.use('/api/users', userRoutes);
+
 // Basic Route for testing
 app.get('/', (req, res) => {
     res.send('API is running...');

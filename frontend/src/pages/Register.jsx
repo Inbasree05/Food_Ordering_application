@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Utensils } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +15,7 @@ const Register = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const { name, email, password, confirmPassword } = formData;
 
@@ -43,8 +46,8 @@ const Register = () => {
 
       const { data } = await axios.post('http://localhost:5000/api/users/register', { name, email, password }, config);
       
-      // Save token
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      // Save token to context
+      login(data);
       
       // Redirect to home
       navigate('/');

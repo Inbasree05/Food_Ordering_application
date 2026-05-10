@@ -1,12 +1,20 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ShoppingCart, Menu, X, Utensils } from 'lucide-react';
+import React, { useState, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ShoppingCart, Menu, X, Utensils, User, LogOut } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
   };
 
   return (
@@ -39,12 +47,31 @@ const Navbar = () => {
                 0
               </span>
             </Link>
-            <Link to="/login" className="text-slate-300 hover:text-orange-500 font-medium transition-colors">
-              Log in
-            </Link>
-            <Link to="/register" className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-orange-500 hover:to-red-500 text-white px-5 py-2 rounded-xl font-medium transition-all shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(249,115,22,0.5)] transform hover:-translate-y-0.5">
-              Sign Up
-            </Link>
+            
+            {user ? (
+              <div className="flex items-center space-x-4">
+                <div className="flex items-center text-slate-300 gap-2 font-medium">
+                  <User size={20} className="text-orange-500" />
+                  <span>{user.name}</span>
+                </div>
+                <button 
+                  onClick={handleLogout}
+                  className="flex items-center gap-1 text-slate-400 hover:text-red-500 font-medium transition-colors"
+                >
+                  <LogOut size={18} />
+                  <span>Logout</span>
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link to="/login" className="text-slate-300 hover:text-orange-500 font-medium transition-colors">
+                  Log in
+                </Link>
+                <Link to="/register" className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-orange-500 hover:to-red-500 text-white px-5 py-2 rounded-xl font-medium transition-all shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_20px_rgba(249,115,22,0.5)] transform hover:-translate-y-0.5">
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile menu button */}
@@ -73,8 +100,27 @@ const Navbar = () => {
             <Link to="/menu" onClick={toggleMenu} className="block px-3 py-3 text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-orange-500 rounded-md">Menu</Link>
             <Link to="/about" onClick={toggleMenu} className="block px-3 py-3 text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-orange-500 rounded-md">About Us</Link>
             <div className="border-t border-slate-800 my-2 pt-2"></div>
-            <Link to="/login" onClick={toggleMenu} className="block px-3 py-3 text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-orange-500 rounded-md">Log in</Link>
-            <Link to="/register" onClick={toggleMenu} className="block px-3 py-3 mt-2 text-center text-base font-medium text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-md shadow-[0_0_15px_rgba(239,68,68,0.3)]">Sign Up</Link>
+            
+            {user ? (
+              <>
+                <div className="block px-3 py-3 text-base font-medium text-orange-500 flex items-center gap-2">
+                  <User size={20} />
+                  <span>Hello, {user.name}</span>
+                </div>
+                <button 
+                  onClick={() => { handleLogout(); toggleMenu(); }} 
+                  className="w-full text-left block px-3 py-3 text-base font-medium text-slate-400 hover:text-red-500 hover:bg-slate-800 rounded-md flex items-center gap-2"
+                >
+                  <LogOut size={20} />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={toggleMenu} className="block px-3 py-3 text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-orange-500 rounded-md">Log in</Link>
+                <Link to="/register" onClick={toggleMenu} className="block px-3 py-3 mt-2 text-center text-base font-medium text-white bg-gradient-to-r from-red-500 to-orange-500 rounded-md shadow-[0_0_15px_rgba(239,68,68,0.3)]">Sign Up</Link>
+              </>
+            )}
           </div>
         </div>
       )}

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Utensils } from 'lucide-react';
+import { AuthContext } from '../context/AuthContext';
+import { useContext } from 'react';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const { email, password } = formData;
 
@@ -36,8 +39,8 @@ const Login = () => {
       // Ensure backend server is running on port 5000
       const { data } = await axios.post('http://localhost:5000/api/users/login', { email, password }, config);
       
-      // Save token
-      localStorage.setItem('userInfo', JSON.stringify(data));
+      // Save token to context
+      login(data);
       
       // Redirect to home
       navigate('/');
