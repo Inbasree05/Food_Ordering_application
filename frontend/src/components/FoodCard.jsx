@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Star, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { CartContext } from '../context/CartContext';
 
 const FoodCard = ({ food }) => {
+  const { addToCart } = useContext(CartContext);
+  
   return (
     <div className="bg-slate-800 rounded-2xl border-2 border-orange-500/60 overflow-hidden shadow-[0_0_15px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.6)] hover:border-red-500 hover:-translate-y-1 transition-all duration-300 flex flex-col h-full">
       {/* Image */}
@@ -37,7 +40,10 @@ const FoodCard = ({ food }) => {
         
         <div className="flex justify-between items-center mt-auto pt-4 border-t border-slate-700/50">
           <span className="text-xl font-bold text-slate-50">${food.price.toFixed(2)}</span>
-          <button className="flex items-center justify-center p-2 rounded-xl bg-slate-700 text-slate-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 hover:text-white transition-all shadow-sm hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] transform hover:scale-105">
+          <button 
+            onClick={() => addToCart(food)}
+            className="flex items-center justify-center p-2 rounded-xl bg-slate-700 text-slate-300 hover:bg-gradient-to-r hover:from-red-500 hover:to-orange-500 hover:text-white transition-all shadow-sm hover:shadow-[0_0_15px_rgba(239,68,68,0.4)] transform hover:scale-105"
+          >
             <ShoppingCart size={20} />
           </button>
         </div>

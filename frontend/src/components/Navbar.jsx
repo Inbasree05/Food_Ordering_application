@@ -2,11 +2,15 @@ import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, Utensils, User, LogOut } from 'lucide-react';
 import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useContext(AuthContext);
+  const { cartItems } = useContext(CartContext);
   const navigate = useNavigate();
+
+  const totalCartItems = cartItems.reduce((acc, item) => acc + item.qty, 0);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -43,9 +47,11 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-6">
             <Link to="/cart" className="relative text-slate-300 hover:text-orange-500 transition-colors">
               <ShoppingCart size={24} />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-[0_0_10px_rgba(239,68,68,0.5)]">
-                0
-              </span>
+              {totalCartItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center shadow-[0_0_10px_rgba(239,68,68,0.5)]">
+                  {totalCartItems}
+                </span>
+              )}
             </Link>
             
             {user ? (
@@ -78,9 +84,11 @@ const Navbar = () => {
           <div className="md:hidden flex items-center">
             <Link to="/cart" className="relative text-slate-300 hover:text-orange-500 transition-colors mr-4">
               <ShoppingCart size={24} />
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                0
-              </span>
+              {totalCartItems > 0 && (
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalCartItems}
+                </span>
+              )}
             </Link>
             <button
               onClick={toggleMenu}
