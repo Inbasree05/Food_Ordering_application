@@ -23,7 +23,10 @@ app.use(express.json()); // Built-in middleware to parse JSON
 
 // Routes
 const userRoutes = require('./routes/userRoutes');
+const foodRoutes = require('./routes/foodRoutes');
+
 app.use('/api/users', userRoutes);
+app.use('/api/foods', foodRoutes);
 
 // Basic Route for testing
 app.get('/', (req, res) => {
