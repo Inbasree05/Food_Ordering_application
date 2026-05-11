@@ -61,10 +61,8 @@ const PlaceOrder = () => {
       );
 
       clearCart();
-      // Normally we would redirect to the order details page here: `/order/${data._id}`
-      // For now, we will just alert success and redirect home
-      alert('Order Placed Successfully! Order ID: ' + data._id);
-      navigate('/');
+      // Redirect to the order tracking page
+      navigate(`/order/${data._id}/track`);
       
     } catch (err) {
       setError(err.response?.data?.message || err.message);

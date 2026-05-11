@@ -5,7 +5,28 @@ const Food = require('../models/foodModel');
 // @access  Public
 const getFoods = async (req, res) => {
   try {
-    const foods = await Food.find({});
+    const keyword = req.query.keyword
+      ? {
+          $or: [
+            {
+              name: {
+                $regex: req.query.keyword,
+                $options: 'i',
+              },
+            },
+            {
+              hotelName: {
+                $regex: req.query.keyword,
+                $options: 'i',
+              },
+            },
+          ],
+        }
+      : {};
+
+    const category = req.query.category ? { category: req.query.category } : {};
+
+    const foods = await Food.find({ ...keyword, ...category });
     res.json(foods);
   } catch (error) {
     res.status(500).json({ message: 'Server Error fetching foods' });

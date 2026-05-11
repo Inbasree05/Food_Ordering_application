@@ -39,8 +39,10 @@ const Navbar = () => {
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/" className="text-slate-300 hover:text-orange-500 font-medium transition-colors">Home</Link>
             <Link to="/menu" className="text-slate-300 hover:text-orange-500 font-medium transition-colors">Menu</Link>
+            {user && (
+              <Link to="/myorders" className="text-slate-300 hover:text-orange-500 font-medium transition-colors">My Orders</Link>
+            )}
             <Link to="/about" className="text-slate-300 hover:text-orange-500 font-medium transition-colors">About Us</Link>
-            <Link to="/contact" className="text-slate-300 hover:text-orange-500 font-medium transition-colors">Contact</Link>
           </div>
 
           {/* Icons & CTA */}
@@ -106,6 +108,9 @@ const Navbar = () => {
           <div className="px-4 pt-2 pb-6 space-y-1">
             <Link to="/" onClick={toggleMenu} className="block px-3 py-3 text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-orange-500 rounded-md">Home</Link>
             <Link to="/menu" onClick={toggleMenu} className="block px-3 py-3 text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-orange-500 rounded-md">Menu</Link>
+            {user && (
+              <Link to="/myorders" onClick={toggleMenu} className="block px-3 py-3 text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-orange-500 rounded-md">My Orders</Link>
+            )}
             <Link to="/about" onClick={toggleMenu} className="block px-3 py-3 text-base font-medium text-slate-300 hover:bg-slate-800 hover:text-orange-500 rounded-md">About Us</Link>
             <div className="border-t border-slate-800 my-2 pt-2"></div>
             

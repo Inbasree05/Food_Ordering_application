@@ -27,6 +27,10 @@ const foodSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    hotelName: {
+      type: String,
+      required: true,
+    },
     image: {
       type: String,
       required: true,
@@ -59,6 +63,14 @@ const foodSchema = mongoose.Schema(
       type: Number,
       required: true,
       default: 0,
+    },
+    deliveryTime: {
+      type: String,
+      default: '30 mins',
+    },
+    offer: {
+      type: String,
+      default: '',
     },
   },
   {
