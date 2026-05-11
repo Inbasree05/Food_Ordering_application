@@ -4,16 +4,22 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
+  const [shippingAddress, setShippingAddress] = useState({});
+  const [paymentMethod, setPaymentMethod] = useState('PayPal');
 
-  // Load from local storage on initial mount
   useEffect(() => {
     const savedCart = localStorage.getItem('cartItems');
+    const savedAddress = localStorage.getItem('shippingAddress');
+    const savedPayment = localStorage.getItem('paymentMethod');
+    
     if (savedCart) {
-      try {
-        setCartItems(JSON.parse(savedCart));
-      } catch (error) {
-        console.error("Error parsing cart data from localStorage", error);
-      }
+      try { setCartItems(JSON.parse(savedCart)); } catch (e) {}
+    }
+    if (savedAddress) {
+      try { setShippingAddress(JSON.parse(savedAddress)); } catch (e) {}
+    }
+    if (savedPayment) {
+      try { setPaymentMethod(JSON.parse(savedPayment)); } catch (e) {}
     }
   }, []);
 
@@ -52,8 +58,22 @@ export const CartProvider = ({ children }) => {
     localStorage.removeItem('cartItems');
   };
 
+  const saveShippingAddress = (data) => {
+    setShippingAddress(data);
+    localStorage.setItem('shippingAddress', JSON.stringify(data));
+  };
+
+  const savePaymentMethod = (data) => {
+    setPaymentMethod(data);
+    localStorage.setItem('paymentMethod', JSON.stringify(data));
+  };
+
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ 
+      cartItems, addToCart, removeFromCart, updateQuantity, clearCart,
+      shippingAddress, saveShippingAddress,
+      paymentMethod, savePaymentMethod
+    }}>
       {children}
     </CartContext.Provider>
   );

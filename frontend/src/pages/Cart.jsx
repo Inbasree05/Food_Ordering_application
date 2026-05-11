@@ -1,10 +1,11 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Trash2, ArrowRight } from 'lucide-react';
 import { CartContext } from '../context/CartContext';
 
 const Cart = () => {
   const { cartItems, removeFromCart, updateQuantity } = useContext(CartContext);
+  const navigate = useNavigate();
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.qty * item.price, 0);
 
@@ -97,6 +98,7 @@ const Cart = () => {
                 </div>
                 
                 <button 
+                  onClick={() => navigate('/shipping')}
                   disabled={cartItems.length === 0}
                   className="w-full flex items-center justify-center gap-2 px-6 py-4 border border-transparent text-base font-bold rounded-xl text-white bg-gradient-to-r from-red-500 to-orange-500 hover:from-orange-500 hover:to-red-500 transition-all shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_30px_rgba(249,115,22,0.5)] transform hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
